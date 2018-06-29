@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final utlizzo versione della libreria JasperReports6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportAlloggi" language="groovy" pageWidth="595" pageHeight="841" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2cfa5ad0-b19b-423e-81bc-f03caca441d1">
+	<property name="ireport.zoom" value="1.3660269107301415"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="172"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterUDBandi.xml"/>
+	<style name="Default" isDefault="true" fontName="ATER Fonts - Arimo"/>
+	<style name="MultiLineBackGround" style="Default">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5F5FF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LOGO" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["minilogo.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="INTESTAZIONE1" class="java.lang.String"/>
+	<parameter name="INTESTAZIONE2" class="java.lang.String"/>
+	<parameter name="INTESTAZIONE3" class="java.lang.String"/>
+	<parameter name="IDBANDO" class="java.lang.Double" evaluationTime="Early"/>
+	<parameter name="IDGRADUATORIA" class="java.lang.Double" evaluationTime="Early"/>
+	<queryString language="hql">
+		<![CDATA[Select grad.id.idBando as idBando,
+grad.id.idGraduatoria as idGraduatoria,
+grad.id.idDomanda as idDomanda,
+grad.codiceAnagrafica as codiceAnagrafica,
+grad.punteggioTotale as punteggioTotale,
+grad.posizioneGraduatoria as posizioneGraduatoria,
+grad.stato as stato,
+grad.codiceAnagrafica as codiceAnagrafica,
+grad.sorteggiato as sorteggiato,
+grad.daSorteggiare as daSorteggiare,
+anagrafica.cognomeRagione as cognomeRagione,
+anagrafica.nominativo as nominativo,
+anagrafica.dataNascita as dataNascita,
+g.descrizione as descrizione,
+g.dataPubblicazione as dataPubblicazioneGrad,
+b.annoBando as annoBando,
+b.numeroBando as numeroBando,
+b.dataPubblicazione as dataPubblicazione,
+b.oggetto as oggetto
+From GraduatoriaPunteggio grad, Graduatoria g, Anagrafiche anagrafica, Bandi b
+Where grad.codiceAnagrafica = anagrafica.codice
+And b.idBando = grad.id.idBando
+And g.id.idBando = grad.id.idBando
+And g.id.idGraduatoria = grad.id.idGraduatoria
+And ( $P{IDBANDO} is null Or $P{IDBANDO} < 1.0 Or $P{IDBANDO} = grad.id.idBando )
+And ( $P{IDGRADUATORIA} is null Or $P{IDGRADUATORIA} < 1.0 Or $P{IDGRADUATORIA} = grad.id.idGraduatoria )
+Order by COALESCE( grad.stato, 'AAA' ) ASC, grad.punteggioTotale DESC, anagrafica.cognomeRagione, anagrafica.nominativo]]>
+	</queryString>
+	<field name="idBando" class="java.lang.Double"/>
+	<field name="idGraduatoria" class="java.lang.Double"/>
+	<field name="idDomanda" class="java.lang.Double"/>
+	<field name="codiceAnagrafica" class="java.lang.Double"/>
+	<field name="punteggioTotale" class="java.lang.Double"/>
+	<field name="posizioneGraduatoria" class="java.lang.Integer"/>
+	<field name="stato" class="java.lang.String"/>
+	<field name="sorteggiato" class="java.lang.Integer"/>
+	<field name="daSorteggiare" class="java.lang.Integer"/>
+	<field name="cognomeRagione" class="java.lang.String"/>
+	<field name="nominativo" class="java.lang.String"/>
+	<field name="dataNascita" class="java.util.Date"/>
+	<field name="descrizione" class="java.lang.String"/>
+	<field name="annoBando" class="java.lang.String"/>
+	<field name="numeroBando" class="java.lang.Integer"/>
+	<field name="dataPubblicazione" class="java.util.Date"/>
+	<field name="oggetto" class="java.lang.String"/>
+	<field name="dataPubblicazioneGrad" class="java.sql.Date"/>
+	<variable name="PagGrad" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{PAGE_NUMBER} - 1]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="743" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement key="" style="Default" x="225" y="0" width="105" height="64" uuid="4c91eeca-f3f6-4458-a347-849cf6d7bf58"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="false">
+				<reportElement key="" style="Default" x="1" y="75" width="554" height="20" uuid="8511912c-b657-48dd-9b11-735087527ab6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{INTESTAZIONE1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" style="Default" x="1" y="95" width="554" height="15" uuid="3840c8f9-d667-4720-9676-d42ad23c9e4a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{INTESTAZIONE2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" style="Default" x="1" y="110" width="554" height="15" uuid="470eb8d3-99e6-4304-977e-6b0edbd085ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{INTESTAZIONE3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="Default" x="1" y="215" width="554" height="18" uuid="9ce792e4-7d1b-48e0-ba88-b972edb4101a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{numeroBando} == null ? "" : " BANDO DI CONCORSO N. " +   $F{numeroBando} ) +
+( $F{annoBando} == null ? "" : " / " + $F{annoBando} ) +
+( $F{dataPubblicazione} == null ? "" : " del " + DateFormat.getDateInstance(DateFormat.LONG).format($F{dataPubblicazione}) )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" style="Default" x="1" y="289" width="554" height="51" uuid="0fa3fd85-6421-49a6-99bd-d0fec4bc153f"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{oggetto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="" style="Default" x="1" y="245" width="554" height="40" uuid="7e402ee6-55a1-489b-b482-75e20335e457"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[per l'assegnazione in locazione di alloggi di edilizia residenziale pubblica sovvenzionata siti nel Comune o nei Comuni di]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" x="1" y="350" width="554" height="18" uuid="1df24865-41af-42d6-8825-443dbcf8d975"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRADUATORIA PROVVISORIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" x="1" y="385" width="554" height="265" uuid="bb6c01c8-656c-47af-ae64-e8f3a0d06ee5"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[La presente graduatoria è resa pubblica mediante affissione, per trenta giorni consecutivi, nella sede dell’ATER, in luogo aperto al pubblico, all’albo pretorio e nelle sedi di decentramento comunale del Comune o dei Comuni nei cui territori hanno sede gli alloggi oggetto del bando, nei siti web istituzionali della Regione, dell’ATER e dei Comuni medesimi.
+Entro i dieci giorni successivi alla scadenza di detto termine, i titolari delle domande possono presentare osservazioni in merito al posizionamento o all’eventuale esclusione della propria domanda alla Commissione, allegando eventuali documenti integrativi a quelli presentati a fronte del bando. <u>Non sono valutabili ai fini della rivalutazione della domanda, i documenti e i certificati che gli stessi avrebbero potuto o dovuto presentare nel termine di scadenza del bando di concorso.</u>
+I termini minimi di pubblicazione previsti ai fini di legittimità sono esclusivamente quelli risultanti dal sito internet dell’ATER.
+A parità di punteggio, le domande sono state inserite in graduatoria in ordine alfabetico.
+Nel rispetto di quanto previsto dall’art. 7, comma 6, del Regolamento di esecuzione emanato con D.P.Reg. n. 0208/Pres. del 26 ottobre 2016, al fine di verificare la sussistenza dei requisiti soggettivi e delle altre condizioni previste dal bando di concorso, l’ATER procede, anche a seguito della pubblicazione della presente graduatoria, ad idonei controlli sulla veridicità delle dichiarazioni sottoscritte dai richiedenti e delle documentazioni presentate dagli stessi. <u>La falsità delle dichiarazioni e documentazioni comporterà l'automatica esclusione dalla graduatoria e potrà essere perseguita ai sensi di legge.</u>]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" x="1" y="153" width="554" height="19" uuid="6e0f22b5-c40b-447b-80db-eb2d86bafd5f"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Commissione per l’accertamento dei requisiti soggettivi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" x="1" y="173" width="554" height="18" uuid="d77620b6-3bac-4625-bd39-a4b614ecf19a"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[di cui all’art. 42 della legge regionale 19 febbraio 2016, n. 1]]></text>
+			</staticText>
+			<subreport>
+				<reportElement key="" style="Default" x="5" y="723" width="230" height="20" uuid="305370f6-fe11-4cb8-bf3a-bfc358533fa6"/>
+				<subreportParameter name="TIPO">
+					<subreportParameterExpression><![CDATA['SEGRETARIO']]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="HIBERNATE_SESSION">
+					<subreportParameterExpression><![CDATA[$P{HIBERNATE_SESSION}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="IDBANDO">
+					<subreportParameterExpression><![CDATA[$F{idBando}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subCommissione.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement key="" style="Default" x="5" y="701" width="230" height="20" uuid="74873a57-7c2c-451f-8050-76fdc176ec62"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Il segretario della Commissione]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" x="320" y="701" width="230" height="20" uuid="84eec178-f062-45b1-8426-65067c32fa10"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Il Presidente della Commissione]]></text>
+			</staticText>
+			<subreport>
+				<reportElement key="" style="Default" x="320" y="723" width="230" height="20" uuid="e4c4c0a2-d9f3-4406-9f4d-8356fe3782a5"/>
+				<subreportParameter name="TIPO">
+					<subreportParameterExpression><![CDATA['PRESIDENTE']]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="HIBERNATE_SESSION">
+					<subreportParameterExpression><![CDATA[$P{HIBERNATE_SESSION}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="IDBANDO">
+					<subreportParameterExpression><![CDATA[$F{idBando}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subCommissione.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="Default" x="1" y="657" width="554" height="18" uuid="6b808a7f-db15-4ed7-887d-5611b7f16724"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{dataPubblicazioneGrad} == null ? "" : " Udine,  " + DateFormat.getDateInstance(DateFormat.LONG).format($F{dataPubblicazioneGrad}) )]]></textFieldExpression>
+			</textField>
+			<break>
+				<reportElement key="" style="Default" positionType="Float" x="0" y="742" width="94" height="1" uuid="f11f75d3-7f25-4e3a-a460-4b274806bbc1"/>
+			</break>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="23" splitType="Prevent">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="Default" positionType="Float" x="5" y="1" width="545" height="21" uuid="7d101aa6-3fb3-416e-8e4e-811b2adf5db0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{numeroBando} == null ? "" : " BANDO DI CONCORSO N. " +   $F{numeroBando} ) +
+( $F{annoBando} == null ? "" : " / " + $F{annoBando} ) +
+( $F{dataPubblicazione} == null ? "" : " del " + DateFormat.getDateInstance(DateFormat.LONG).format($F{dataPubblicazione}) + " - GRADUATORIA PROVVISORIA")]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement key="" style="Default" x="10" y="1" width="33" height="20" uuid="14789437-aff3-45a2-8564-2bd7a87490e5"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17">
+			<staticText>
+				<reportElement key="" style="Default" mode="Opaque" x="243" y="0" width="192" height="17" backcolor="#E0E0E0" uuid="44fcccf2-c30f-482d-9b2f-276a080697c4"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" mode="Opaque" x="1" y="0" width="50" height="17" backcolor="#E0E0E0" uuid="ee8ba6a2-a010-4561-86f6-9448f44d06f5"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Posizione]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" mode="Opaque" x="485" y="0" width="70" height="17" backcolor="#E0E0E0" uuid="50fcf20c-167d-4c67-9044-ac7a91af4b31"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Stato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" mode="Opaque" x="435" y="0" width="50" height="17" backcolor="#E0E0E0" uuid="427400ab-2634-465d-86a7-c71a05288daa"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Punteggio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Default" mode="Opaque" x="51" y="0" width="192" height="17" backcolor="#E0E0E0" uuid="d689a0d4-e1c9-4718-b263-aee1b76d079a"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.75" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Cognome]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="Default" positionType="Float" stretchType="RelativeToTallestObject" x="1" y="0" width="50" height="17" uuid="7b0eba08-dd44-4a87-966f-cf15af52c9ca"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{stato} != null &&
+( $F{stato}.toUpperCase( ).indexOf( "ESCLUS" ) > -1 ||
+  $F{stato}.toUpperCase( ).indexOf( "ANNUL" ) > -1 ) ) ? "---" :
+( ( ( $F{sorteggiato} == null || $F{sorteggiato} == 0 ) &&
+    $F{daSorteggiare} == 1 ) ? "***" : $F{posizioneGraduatoria} )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="Default" positionType="Float" stretchType="RelativeToTallestObject" x="485" y="0" width="70" height="17" uuid="5095287f-1d71-4831-8ee1-94cbf2cebe10"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stato}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="##0.00  " isBlankWhenNull="true">
+				<reportElement key="" style="Default" positionType="Float" stretchType="RelativeToTallestObject" x="435" y="0" width="50" height="17" uuid="2c9b6c57-e088-424d-a008-d73759d242c6"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{stato} != null &&
+( $F{stato}.toUpperCase( ).indexOf( "ESCLUS" ) > -1 ||
+  $F{stato}.toUpperCase( ).indexOf( "ANNUL" ) > -1 ) ) ? "---" : $F{punteggioTotale}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="Default" stretchType="RelativeToTallestObject" x="243" y="0" width="192" height="17" uuid="c911bdd1-c527-4080-8222-3faf4903f97f"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineColor="#CCCCCC"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{nominativo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="" style="Default" stretchType="RelativeToTallestObject" x="51" y="0" width="192" height="17" uuid="956a92e3-3894-4156-8e10-8cbd49a917c0"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineColor="#CCCCCC"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{cognomeRagione}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement key="" style="Default" x="340" y="0" width="215" height="18" uuid="8e4f1f6d-0577-4c41-9c4d-9a55e8a4d31b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PagGrad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="" style="Default" x="1" y="0" width="100" height="18" uuid="72ab406c-92d3-44a8-8b29-1ca318b3042c"/>
+				<text><![CDATA[ATER Udine]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
