@@ -86,9 +86,6 @@ Order by COALESCE( grad.stato, 'AAA' ) ASC, grad.punteggioTotale DESC, anagrafic
 	<field name="dataPubblicazione" class="java.util.Date"/>
 	<field name="oggetto" class="java.lang.String"/>
 	<field name="dataPubblicazioneGrad" class="java.sql.Date"/>
-	<variable name="PagGrad" class="java.lang.Integer">
-		<variableExpression><![CDATA[$V{PAGE_NUMBER} - 1]]></variableExpression>
-	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -399,23 +396,26 @@ Nel rispetto di quanto previsto dall’art. 7, comma 6, del Regolamento di esecu
 	<pageFooter>
 		<band height="18" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="130" height="18" uuid="84c03b22-ab49-435b-9e03-c0ca1466d54c"/>
+				<reportElement x="140" y="0" width="280" height="18" uuid="18356363-31c1-495c-9007-71efd7347dd5"/>
+				<textElement textAlignment="Center">
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{ReportName}+" "+$R{ReportVersion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="130" height="18" uuid="88e11750-80d9-4e90-ba58-367e9460d25e"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$P{FOOTERSTAMPA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="430" y="0" width="125" height="18" uuid="be5621cc-f059-435c-93fc-e46c3d2ab6e3"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Pagina " + ($V{PAGE_NUMBER}-1) + " di " + ($V{PAGE_NUMBER}-1)]]></textFieldExpression>
+				<reportElement x="420" y="0" width="65" height="18" uuid="c8b4db12-fe09-49a6-bd3a-62edfe83e569"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina " + ($V{PAGE_NUMBER}-1)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="140" y="0" width="280" height="18" uuid="c80f69e5-2fc5-472b-8aed-e126d747dba9"/>
-				<textElement textAlignment="Center">
-					<font size="8" isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$R{ReportName}+" "+$R{ReportVersion}]]></textFieldExpression>
+			<textField evaluationTime="Report">
+				<reportElement x="485" y="0" width="69" height="18" uuid="1c0f6eaf-35d0-4082-bf55-007c877cf2c4"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" di " + ($V{PAGE_NUMBER}-1)]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
