@@ -86,6 +86,13 @@ Order by COALESCE( grad.stato, 'AAA' ) ASC, grad.punteggioTotale DESC, anagrafic
 	<field name="dataPubblicazione" class="java.util.Date"/>
 	<field name="oggetto" class="java.lang.String"/>
 	<field name="dataPubblicazioneGrad" class="java.sql.Date"/>
+	<variable name="PUNTEGGIO_PRECEDENTE" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{PUNTEGGIO_ATTUALE}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="PUNTEGGIO_ATTUALE" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{punteggioTotale}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -334,7 +341,7 @@ Nel rispetto di quanto previsto dall’art. 7, comma 6, del Regolamento di esecu
 ( $F{stato}.toUpperCase( ).indexOf( "ESCLUS" ) > -1 ||
   $F{stato}.toUpperCase( ).indexOf( "ANNUL" ) > -1 ) ) ? "---" :
 ( ( ( $F{sorteggiato} == null || $F{sorteggiato} == 0 ) &&
-    $F{daSorteggiare} == 1 ) ? "***" : $F{posizioneGraduatoria} )]]></textFieldExpression>
+    $F{daSorteggiare} == 1 ) ?( ( $V{PUNTEGGIO_PRECEDENTE} != $V{PUNTEGGIO_ATTUALE}) ? $V{REPORT_COUNT} : "***" ) : $V{REPORT_COUNT} )]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement key="" style="Default" positionType="Float" stretchType="RelativeToTallestObject" x="485" y="0" width="70" height="17" uuid="5095287f-1d71-4831-8ee1-94cbf2cebe10"/>
